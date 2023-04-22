@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { FormControl } from '@angular/forms';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
       map((search: string | null) => (search ? search.trim().split(' ') : null))
     );
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private spinner: NgxSpinnerService) {
     combineLatest([this._start, this._limit, this.title_like])
       .pipe(
         map(([_start, _limit, title_like]) => {
@@ -58,12 +58,14 @@ export class AppComponent implements OnInit {
         }),
         switchMap((val) => {
           this._isLoading.next(true);
+          this.spinner.show();
 
           return this.api.getPhotos(val).pipe(
             delay(500),
             finalize(() => {
               this._isLoading.next(false);
               this._isLoadingSearch.next(false);
+              this.spinner.hide();
             })
           );
         })

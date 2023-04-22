@@ -51,8 +51,8 @@
   <!-- </ng-container> -->
 
   <p style="text-align: center">
-    <!-- {{ (_isLoading | async) ? "loading ..." : "" }} -->
-    <ngx-spinner type="Ball Atom"></ngx-spinner>
+    {{ (_isLoading | async) ? "Loading ..." : "" }}
+    <!-- <ngx-spinner type="ball-atom" [fullScreen]="false"></ngx-spinner> -->
   </p>
   <!-- </ng-container> -->
 </cdk-virtual-scroll-viewport>
